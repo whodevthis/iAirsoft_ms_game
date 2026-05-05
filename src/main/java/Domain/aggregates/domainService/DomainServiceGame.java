@@ -24,8 +24,6 @@ public class GameDomainService {
                 && totalPlayers > 0;
     }
 
-    // -------------------------------------------------------------------------
-
     private void assertTeamsMatchGame(Game game, List<Team> teams) {
         Assert.notNull(game,  "game is null");
         Assert.notNull(teams, "teams is null");

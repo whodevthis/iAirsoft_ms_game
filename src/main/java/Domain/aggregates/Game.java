@@ -13,13 +13,13 @@ import java.util.UUID;
 @Getter
 public class Game {
 
-    private final UUID id;
+    private  UUID id;
     private String name;
     private ZonedDateTime initGame;
     private ZonedDateTime endGame;
     private String description;
-    private final List<UUID> teamIds;
-    private final UUID locationId;
+    private List<UUID> teamIds;
+    private UUID locationId;
     private int bleedingTimeSeconds;
     private int healingTimeSeconds;
     private GameStatus status;
@@ -28,9 +28,10 @@ public class Game {
 
     public Game(int bleedingTimeSeconds, String description, ZonedDateTime endGame, int healingTimeSeconds, UUID id, ZonedDateTime initGame, UUID locationId, String name, List<UUID> teamIds, int maxPlayers, ZonedDateTime recruitingTimeEnd) {
 
-        Assert.notNull(id, "Game id is null");
+
         Assert.notNull(name, "Game name is null");
         Assert.hasText(name, "Game name is blank");
+
         Assert.notNull(initGame, "initGame is null");
         Assert.notNull(endGame, "endGame is null");
         Assert.isTrue(initGame.isBefore(endGame), "initGame must be before endGame");
@@ -72,7 +73,7 @@ public class Game {
     public void addTeam(UUID teamId) {
         Assert.notNull(teamId, "teamId is null");
         Assert.state(status == GameStatus.CREATED, "Cannot add teams after game has started");
-        // ✅ comparación por identidad de dominio (UUID), no por referencia
+
         Assert.isTrue(teamIds.stream().noneMatch(teamId::equals), "Team already belongs to this game");
         teamIds.add(teamId);
     }
