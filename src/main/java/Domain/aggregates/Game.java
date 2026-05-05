@@ -10,41 +10,41 @@ import java.util.UUID;
 
 @Getter
 public class Game {
-    UUID id;
-    String name;
-    ZonedDateTime initGame;
-    ZonedDateTime endGame;
-    String description;
+    private UUID id;
 
-    List<UUID> teamIds;
-    List<UUID> playerIds;
-    UUID locationId;
+    private String name;
+    private ZonedDateTime initGame;
+    private ZonedDateTime endGame;
+    private String description;
 
-    int bleedingTimeSeconds;
-    int healingTimeSeconds;
+    private List<UUID> teamIds;
+    private List<UUID> playerIds;
+    private UUID locationId;
 
-    public Game(int bleedingTimeSeconds, String description, ZonedDateTime endGame, int healingTimeSeconds, UUID id, ZonedDateTime initGame, UUID locationId, String name, List<UUID> playerIds, List<UUID> teamIds) {
+    private int bleedingTimeSeconds;
+    private int healingTimeSeconds;
+
+    public Game(UUID id, int bleedingTimeSeconds, String description, ZonedDateTime endGame, int healingTimeSeconds,
+                ZonedDateTime initGame, UUID locationId, String name, List<UUID> playerIds, List<UUID> teamIds) {
 
         Assert.notNull(name, "Game name is null");
         Assert.notNull(initGame, "Game initGame is null");
         Assert.notNull(endGame, "Game endGame is null");
         Assert.notNull(description, "Game description is null");
-
         Assert.notEmpty(teamIds, "Game teamIds is empty");
         Assert.notEmpty(playerIds, "Game playerIds is empty");
 
+        this.id= id;
         this.bleedingTimeSeconds = bleedingTimeSeconds;
         this.description = description;
         this.endGame = endGame;
         this.healingTimeSeconds = healingTimeSeconds;
-        this.id = id;
         this.initGame = initGame;
         this.locationId = locationId;
         this.name = name;
         this.playerIds = playerIds;
         this.teamIds = teamIds;
     }
-
 
     public void addPlayer(UUID playerId) {
         Assert.notNull(playerId, "PlayerId is null");
@@ -71,7 +71,5 @@ public class Game {
         Assert.isTrue(teamIds.size() > 1, "Game must have at least one team");
         teamIds.remove(teamId);
     }
-
-
 
 }
