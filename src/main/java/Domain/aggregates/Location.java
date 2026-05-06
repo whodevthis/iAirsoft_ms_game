@@ -1,8 +1,7 @@
 package Domain.aggregates;
 
 import Domain.valueObjects.Address;
-import Domain.valueObjects.Coordinates;
-import Domain.valueObjects.Geofence;
+import Domain.valueObjects.Marker;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
@@ -12,27 +11,26 @@ import java.util.UUID;
 public class Location {
 
     private final UUID id;
-    private Geofence geofence;
+    private UUID geofenceId;
     private Address address;
-    private Coordinates coordinates;
+    private Marker marker;
 
-    public Location(UUID id, Geofence geofence, Address address, Coordinates coordinates) {
+    public Location(UUID id, UUID geofenceId, Address address, Marker marker) {
         Assert.notNull(id, "id is null");
-        Assert.notNull(geofence, "geofence is null");
+        Assert.notNull(geofenceId, "geofenceId is null");
         Assert.notNull(address, "address is null");
-        Assert.notNull(coordinates, "coordinates is null");
-        Assert.isTrue(geofence.contains(coordinates), "coordinates must be inside the geofence");
+        Assert.notNull(marker, "marker is null");
 
         this.id = id;
-        this.geofence = geofence;
+        this.geofenceId = geofenceId;
         this.address = address;
-        this.coordinates = coordinates;
+        this.marker = marker;
     }
 
-    public void updateGeofence(Geofence geofence) {
-        Assert.notNull(geofence, "geofence is null");
-        Assert.isTrue(geofence.contains(coordinates), "coordinates must remain inside the new geofence");
-        this.geofence = geofence;
+    // FIX 3: recibe UUID, no Geofence — el dominio solo guarda la referencia
+    public void updateGeofence(UUID geofenceId) {
+        Assert.notNull(geofenceId, "geofenceId is null");
+        this.geofenceId = geofenceId;
     }
 
     public void updateAddress(Address address) {
@@ -40,10 +38,10 @@ public class Location {
         this.address = address;
     }
 
-    public void updateCoordinates(Coordinates coordinates) {
-        Assert.notNull(coordinates, "coordinates is null");
-        Assert.isTrue(geofence.contains(coordinates), "new coordinates must be inside the geofence");
-        this.coordinates = coordinates;
+
+    public void updateMarker(Marker marker) {
+        Assert.notNull(marker, "marker is null");
+        this.marker = marker;
     }
 
     @Override

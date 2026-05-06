@@ -1,12 +1,12 @@
 package Domain.InternEntities;
 
 import Domain.states.ObjectiveState;
+import Domain.valueObjects.Marker;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
 import java.util.UUID;
 
-import Domain.valueObjects.Marker;
 @Getter
 public class Objective {
 
@@ -32,7 +32,6 @@ public class Objective {
         Assert.notNull(description, "description is null");
         Assert.hasText(description, "description must not be blank");
         Assert.notNull(marker, "marker is null");
-
         if (image != null) {
             Assert.hasText(image, "image must not be blank if provided");
         }
@@ -44,31 +43,32 @@ public class Objective {
         this.marker = marker;
         this.completed = false;
         this.completedBy = null;
-        this.state = ObjectiveState.PENDING; // estado inicial
+        this.state = ObjectiveState.CREATED;
+    }
+
+    public void activate() {
+
+        Assert.state(state == ObjectiveState.CREATED, "Only CREATED objectives can be activated");
+        this.state = ObjectiveState.ON_COURSE;
     }
 
     public void complete(UUID playerId) {
         Assert.notNull(playerId, "playerId is null");
-        Assert.state(state == ObjectiveState.ACTIVE, "Objective must be ACTIVE to be completed");
+
+        Assert.state(state == ObjectiveState.ON_COURSE, "Objective must be ON_COURSE to be completed");
         Assert.state(!completed, "Objective is already completed");
 
         this.completed = true;
         this.completedBy = playerId;
-        this.state = ObjectiveState.COMPLETED;
-    }
 
-    public void activate() {
-        Assert.state(state == ObjectiveState.PENDING, "Only PENDING objectives can be activated");
-
-        this.state = ObjectiveState.ACTIVE;
+        this.state = ObjectiveState.END;
     }
 
     public void cancel() {
-        Assert.state(state != ObjectiveState.COMPLETED, "Cannot cancel a completed objective");
 
+        Assert.state(state != ObjectiveState.END, "Cannot cancel a completed objective");
         this.state = ObjectiveState.CANCELLED;
     }
-
 
     @Override
     public boolean equals(Object o) {

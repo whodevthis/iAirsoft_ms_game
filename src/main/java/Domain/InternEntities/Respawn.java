@@ -1,7 +1,7 @@
 
 package Domain.InternEntities;
 
-import Domain.valueObjects.Geofence;
+import Domain.aggregates.Geofence;
 import Domain.valueObjects.Marker;
 import lombok.Getter;
 import org.springframework.util.Assert;
@@ -19,7 +19,7 @@ public class Respawn {
         Assert.notNull(id, "id is null");
         Assert.notNull(marker, "marker is null");
         Assert.notNull(geofence, "geofence is null");
-        Assert.isTrue(geofence.contains(marker), "marker must be inside the geofence");
+
 
         this.id = id;
         this.marker = marker;
