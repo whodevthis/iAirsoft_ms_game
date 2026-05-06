@@ -42,12 +42,11 @@ public class Team {
 
     public void addTeamRole(TeamRole teamRole) {
         Assert.notNull(teamRole, "teamRole is null");
-        // FIX: usaba 'objective' en lugar de 'teamRole'
         Assert.isTrue(roles.stream().noneMatch(teamRole::equals), "teamRole already belongs to this team");
 
         List<TeamRole> updated = new ArrayList<>(this.roles);
         updated.add(teamRole);
-        this.roles = List.copyOf(updated); // reemplaza con nueva lista inmutable
+        this.roles = List.copyOf(updated);
     }
 
     public void removeTeamRole(TeamRole teamRole) {
