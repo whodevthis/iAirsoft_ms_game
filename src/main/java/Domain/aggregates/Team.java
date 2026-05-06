@@ -1,5 +1,9 @@
 package Domain.aggregates;
 
+import Domain.InternEntities.Objective;
+import Domain.InternEntities.Respawn;
+import Domain.InternEntities.TeamRole;
+import Domain.valueObjects.FlagTeam;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
@@ -15,11 +19,12 @@ public class Team {
     private String name;
     private FlagTeam flagTeam;
     private UUID cammoId;
+    private List<Player> players;
     private List<TeamRole> roles;
     private List<Objective> objectives;
     private Respawn respawn;
 
-    public Team(UUID cammoId, FlagTeam flagTeam, UUID gameId, UUID id, String name, List<Objective> objectives, Respawn respawn, List<TeamRole> roles) {
+    public Team(UUID cammoId, FlagTeam flagTeam, UUID gameId, UUID id, String name, List<Objective> objectives, Respawn respawn, List<Player> players, List<TeamRole> roles) {
 
         Assert.notNull(cammoId, "cammoId is null");
         Assert.notNull(flagTeam, "flagTeam is null");
@@ -29,6 +34,8 @@ public class Team {
         Assert.notEmpty(objectives, "objectives is empty");
         Assert.notEmpty(roles, "roles is empty");
 
+
+        this.players = players;
         this.cammoId = cammoId;
         this.flagTeam = flagTeam;
         this.gameId = gameId;

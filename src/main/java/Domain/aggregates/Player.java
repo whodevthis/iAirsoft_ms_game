@@ -15,7 +15,7 @@ public class Player {
     private final UUID teamId;
     private final UUID roleTemplateId;
     private String nickname;
-    private String image; // nullable
+    private String image;
 
     public Player(
             UUID id,
