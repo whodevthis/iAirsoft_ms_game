@@ -6,6 +6,7 @@ import org.springframework.util.Assert;
 
 import java.util.UUID;
 
+import Domain.valueobjects.Marker;
 @Getter
 public class Objective {
 
