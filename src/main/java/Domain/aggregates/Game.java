@@ -107,7 +107,8 @@ public class Game {
         this.status = GameStatus.CANCELLED;
     }
 
+
     public List<UUID> getTeamIds() {
-        return Collections.unmodifiableList(teamIds);
+        return List.copyOf(teamIds);
     }
 }
