@@ -1,4 +1,4 @@
-package Domain.aggregates;
+package Domain.SupportEntities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Cammo {
-
+@NoArgsConstructor
+public class Player {
     private  UUID id;
-    private String name;
-    private String  imagePath;
+    private  UUID userId;
+    private String nickname;
+    private String imagePath;
 
 }

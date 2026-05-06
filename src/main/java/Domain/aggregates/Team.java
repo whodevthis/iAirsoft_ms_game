@@ -1,88 +1,35 @@
 package Domain.aggregates;
 
-import Domain.InternEntities.Objective;
-import Domain.InternEntities.Respawn;
-import Domain.InternEntities.TeamRole;
+import Domain.valueObjects.Respawn;
 import Domain.valueObjects.FlagTeam;
+import Domain.valueObjects.PlayerObjective;
+import Domain.valueObjects.PlayerRole;
+import Domain.valueObjects.TeamRole;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.util.Assert;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Team {
-
     private UUID id;
-    private UUID gameId;
     private String name;
+    private String description;
     private FlagTeam flagTeam;
-    private UUID cammoId;
-    private List<Player> players;
+
+    private List<PlayerRole> players;
     private List<TeamRole> roles;
+
+    private List<PlayerObjective> playerObjectives;
     private List<Objective> objectives;
+
+    private UUID cammoId;
+
     private Respawn respawn;
 
-    public Team(UUID cammoId, FlagTeam flagTeam, UUID gameId, UUID id, String name, List<Objective> objectives, Respawn respawn, List<Player> players, List<TeamRole> roles) {
 
-        Assert.notNull(cammoId, "cammoId is null");
-        Assert.notNull(flagTeam, "flagTeam is null");
-        Assert.notNull(gameId, "gameId is null");
-        Assert.notNull(name, "name is null");
-        Assert.notNull(respawn, "respawn is null");
-        Assert.notEmpty(objectives, "objectives is empty");
-        Assert.notEmpty(roles, "roles is empty");
-
-
-        this.players = players;
-        this.cammoId = cammoId;
-        this.flagTeam = flagTeam;
-        this.gameId = gameId;
-        this.id = id;
-        this.name = name;
-        this.respawn = respawn;
-        this.objectives = List.copyOf(objectives);
-        this.roles = List.copyOf(roles);
-    }
-
-
-    public void addTeamRole(TeamRole teamRole) {
-        Assert.notNull(teamRole, "teamRole is null");
-        Assert.isTrue(roles.stream().noneMatch(teamRole::equals), "teamRole already belongs to this team");
-
-        List<TeamRole> updated = new ArrayList<>(this.roles);
-        updated.add(teamRole);
-        this.roles = List.copyOf(updated);
-    }
-
-    public void removeTeamRole(TeamRole teamRole) {
-        Assert.notNull(teamRole, "teamRole is null");
-
-        Assert.isTrue(roles.stream().anyMatch(teamRole::equals), "teamRole does not belong to this team");
-        Assert.isTrue(roles.size() > 1, "Team must keep at least one role");
-
-        List<TeamRole> updated = new ArrayList<>(this.roles);
-        updated.removeIf(teamRole::equals);
-        this.roles = List.copyOf(updated);
-    }
-
-    public void addObjective(Objective objective) {
-        Assert.notNull(objective, "objective is null");
-        Assert.isTrue(objectives.stream().noneMatch(objective::equals), "objective already belongs to this team");
-
-        List<Objective> updated = new ArrayList<>(this.objectives);
-        updated.add(objective);
-        this.objectives = List.copyOf(updated);
-    }
-
-    public void removeObjective(Objective objective) {
-        Assert.notNull(objective, "objective is null");
-        Assert.isTrue(objectives.stream().anyMatch(objective::equals), "objective does not belong to this team");
-        Assert.isTrue(objectives.size() > 1, "Team must keep at least one objective");
-
-        List<Objective> updated = new ArrayList<>(this.objectives);
-        updated.removeIf(objective::equals);
-        this.objectives = List.copyOf(updated);
-    }
 }
