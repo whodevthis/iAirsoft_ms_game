@@ -1,7 +1,6 @@
 package Domain.aggregates;
 
 import Domain.valueObjects.Respawn;
-import Domain.valueObjects.FlagTeam;
 import Domain.valueObjects.PlayerObjective;
 import Domain.valueObjects.PlayerRole;
 import Domain.valueObjects.TeamRole;
@@ -19,13 +18,13 @@ public class Team {
     private UUID id;
     private String name;
     private String description;
-    private FlagTeam flagTeam;
+    private String imagePath;
 
     private List<PlayerRole> players;
     private List<TeamRole> roles;
 
     private List<PlayerObjective> playerObjectives;
-    private List<Objective> objectives;
+    private List<UUID> objectives;
 
     private UUID cammoId;
 
