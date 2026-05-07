@@ -6,5 +6,6 @@ public enum GameStatus {
     IN_PROGRESS,
     PAUSED,
     FINISHED,
+    ON_RECRUITMENT,
     CANCELLED
 }

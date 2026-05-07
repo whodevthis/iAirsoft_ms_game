@@ -14,5 +14,4 @@ public class Player {
     private  UUID userId;
     private String nickname;
     private String imagePath;
-
 }
