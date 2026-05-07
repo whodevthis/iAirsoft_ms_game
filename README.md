@@ -4,7 +4,7 @@ Backend for immersive airsoft/milsim game management with voice-controlled virtu
 
 
 About
-REST API backend for comprehensive airsoft and milsim (military simulation) game management. It handles pre-game organization — matches, teams, players and locations — and during the game acts as a voice-controlled virtual HQ, giving the command team real-time visibility over the game state.
+GateWay API backend for comprehensive airsoft and milsim (military simulation) game management. It handles pre-game organization — matches, teams, players and locations — and during the game acts as a voice-controlled virtual HQ, giving the command team real-time visibility over the game state.
 The frontend (mobile app with voice interface) is distributed as an independent APK and consumes this API.
 
 Architecture
@@ -20,7 +20,7 @@ LayerTechnologyLanguageJava 21FrameworkSpring Boot 3SecuritySpring SecurityPersi
 
 Features
 
-🎮 Full game lifecycle management: CREATED → RECRUITING → IN_PROGRESS → FINISHED
+🎮 Full game lifecycle management
 👥 Team, player and location management
 🎙️ Voice-controlled virtual HQ during live games
 ⚙️ Team capacity control, bleeding and healing timers
@@ -32,17 +32,6 @@ Requirements
 Java 21+
 Docker & Docker Compose
 Maven 3.8+
-
-
-Getting started
-bash# Clone the repository
-git clone https://github.com/whodevthis/iAirsoft_API.git
-cd iAirsoft_API
-
-# Start database and app
-docker-compose up
-
-⚠️ Setup instructions are still in progress and will be updated as development advances.
 
 
 Related repositories
