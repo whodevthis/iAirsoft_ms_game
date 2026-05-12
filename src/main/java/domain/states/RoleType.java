@@ -4,9 +4,7 @@ public enum RoleType {
 
     // Mando
     COMMANDER,
-    EXECUTIVE_OFFICER,
-    SQUAD_LEADER,
-    FIRE_TEAM_LEADER,
+    TEAM_LEADER,
 
     // Infantería
     RIFLEMAN,
@@ -32,10 +30,6 @@ public enum RoleType {
     INFILTRATOR,
     TRACKER,
 
-    // Operaciones especiales
-    OPERATOR,
-    COMBAT_DIVER,
-    DEMO_EXPERT,
 
     // Movilidad
     DRIVER,
@@ -43,7 +37,7 @@ public enum RoleType {
     GUNNER,
 
     // Roles narrativos
-    HVT,
+    BUSINESSMAN,
     VIP,
     PRISONER,
     CIVILIAN

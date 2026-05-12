@@ -1,4 +1,6 @@
 package application.dtos.geofence;
 
-public record InputGeofenceDto(String name, String geo) {
+import domain.valueObjects.GeoJson;
+
+public record InputGeofenceDto(String name, GeoJson geo) {
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,10 +21,17 @@ public class Game {
     private ZonedDateTime initGame;
     private ZonedDateTime endGame;
     private int maxPlayers;
-    private List<UUID> teamIds;
+    private List<UUID> teamIds = new ArrayList<>();
     private int bleedingTimeSeconds;
     private int healingTimeSeconds;
     private ZonedDateTime recruitingTimeEnd;
-    private UUID locationId;
+
     private GameStatus status;
+
+
+    private UUID locationId;
+
+
+
+
 }

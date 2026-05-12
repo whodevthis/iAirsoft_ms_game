@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Location {
 
@@ -19,4 +18,19 @@ public class Location {
     private Address address;
     private Marker marker;
 
+    public Location( UUID id,UUID geofenceId,Address address,  Marker marker) {
+        this.id = id;
+        this.geofenceId = geofenceId;
+        this.address = address;
+
+
+        this.marker = marker;
+    }
+
+    public Location(UUID id, Address address, Marker marker) {
+        this.id = id;
+        this.address = address;
+        this.marker = marker;
+
+    }
 }

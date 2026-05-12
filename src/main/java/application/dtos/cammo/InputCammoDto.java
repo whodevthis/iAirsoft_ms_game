@@ -1,4 +1,4 @@
 package application.dtos.cammo;
 
-public record InputCammoDto(String name, String gamePath) {
+public record InputCammoDto(String name, String imagePath) {
 }

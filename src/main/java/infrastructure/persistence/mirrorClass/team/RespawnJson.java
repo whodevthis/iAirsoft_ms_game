@@ -1,0 +1,16 @@
+package infrastructure.persistence.mirrorClass.team;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class RespawnJson {
+    private Double lat;
+    private Double lon;
+    private String iconUrl;
+}
