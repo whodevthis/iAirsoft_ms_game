@@ -65,7 +65,7 @@ public class TeamDomainService {
             throw new IllegalArgumentException("Role not found in team");
         PlayerObjective playerObjective = new PlayerObjective(new PlayerRole(null, roleId), objectiveId);
         if (team.getPlayerObjectives().contains(playerObjective))
-            throw new IllegalArgumentException("Objective already assigned to role");
+            throw new IllegalArgumentException("Objective already assigned to player");
         team.getPlayerObjectives().add(playerObjective);
     }
 
@@ -77,7 +77,7 @@ public class TeamDomainService {
                 po.playerRole().roleId().equals(roleId) &&
                         po.objectiveId().equals(objectiveId)
         );
-        if (!removed) throw new IllegalArgumentException("Objective not found for that role in team");
+        if (!removed) throw new IllegalArgumentException("Objective not found for that player in team");
     }
 
     private boolean fitPlayer(Team team, UUID roleId) {

@@ -1,11 +1,12 @@
 package application.ports.in.location.query;
 
 import application.dtos.location.LocationDetailsDto;
+import application.dtos.location.LocationDto;
 
 import java.util.List;
 
 public interface SearchLocationUseCase {
 
-     List<LocationDetailsDto> search(String data);
+     List<LocationDto> search(String data);
 
 }

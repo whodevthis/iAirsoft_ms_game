@@ -36,7 +36,7 @@ public class RoleQueryService implements GetAllRoleUseCase, GetRoleByIdUseCase, 
     public List<RoleDetailsDto> search(String data) {
         List<Role> roles = roleRepositoryPort.search(GenericUtils.search(data, Role.class));
 
-        if (roles.isEmpty()) throw new EntityNotFoundException("No roles found for: " + data);
+        if (roles.isEmpty()) throw new EntityNotFoundException("No role found for: " + data);
 
         return roles.stream().map(roleMapper::toDetailsDTO).toList();
     }

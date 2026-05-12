@@ -1,4 +1,4 @@
-package domain.SupportEntities;
+package domain.aggregates;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

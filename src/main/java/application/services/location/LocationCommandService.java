@@ -49,8 +49,10 @@ public class LocationCommandService implements CreateLocationUseCase, DeleteLoca
         Location oldLocation = locationRepositoryPort.findById(locationDetailsDto.id()).orElseThrow(() -> new EntityNotFoundException("Location not found"));
 
         Location updatedLocation = new Location(oldLocation.getId(),
-                genericUtils.applyIfChanged(oldLocation.getLocationType(),locationDetailsDto.locationType()),
-                genericUtils.applyIfChanged(oldLocation.getDescription(),locationDetailsDto.description())
+                genericUtils.applyIfChanged(oldLocation.getGeofenceId(),locationDetailsDto.geofenceId()),
+                genericUtils.applyIfChanged(oldLocation.getAddress(),locationDetailsDto.address()),
+                genericUtils.applyIfChanged(oldLocation.getMarker(),locationDetailsDto.marker())
+
         );
 
         return locationRepositoryPort.save(updatedLocation).getId();

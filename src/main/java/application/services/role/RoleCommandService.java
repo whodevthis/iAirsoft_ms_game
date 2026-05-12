@@ -9,7 +9,6 @@ import application.ports.in.role.command.UpdateRoleUseCase;
 import application.ports.out.RoleRepositoryPort;
 import application.utils.GenericUtils;
 import domain.aggregates.Role;
-import domain.valueObjects.Marker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
