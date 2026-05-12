@@ -1,6 +1,5 @@
-package application.ports.in.team;
+package application.ports.in.team.query;
 
-import application.dtos.game.GameDto;
 import application.dtos.team.TeamDto;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package application.ports.in.game;
+package application.ports.in.game.command;
 
 import application.dtos.game.InputGameDto;
 

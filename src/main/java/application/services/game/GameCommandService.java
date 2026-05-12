@@ -4,7 +4,7 @@ import application.dtos.game.GameDetailsDto;
 import application.dtos.game.InputGameDto;
 import application.exceptions.EntityNotFoundException;
 import application.mappers.GameMapper;
-import application.ports.in.game.*;
+import application.ports.in.game.command.*;
 import application.ports.out.GameRepositoryPort;
 import application.utils.GenericUtils;
 import domain.service.GameDomainService;

@@ -1,9 +1,8 @@
-package application.ports.in.game;
+package application.ports.in.game.query;
 
 import application.dtos.game.GameDto;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface SearchGameUseCase {
 

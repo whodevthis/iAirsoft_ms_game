@@ -1,4 +1,4 @@
-package application.ports.in.team;
+package application.ports.in.team.query;
 
 import application.dtos.team.TeamDto;
 

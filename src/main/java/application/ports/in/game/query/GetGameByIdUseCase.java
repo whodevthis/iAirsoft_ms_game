@@ -1,4 +1,4 @@
-package application.ports.in.game;
+package application.ports.in.game.query;
 
 import application.dtos.game.GameDetailsDto;
 
