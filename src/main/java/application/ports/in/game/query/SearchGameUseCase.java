@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SearchGameUseCase {
 
-     List<GameDto> searchGame(String data);
+     List<GameDto> search(String data);
 
 }

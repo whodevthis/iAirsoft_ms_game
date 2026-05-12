@@ -34,7 +34,7 @@ public class GameQueryService implements GetAllGamesUseCase, GetGameByIdUseCase,
         );
     }
 
-    public List<GameDto> searchGame(String data) {
+    public List<GameDto> search(String data) {
         List<Game> games = gameRepositoryPort.search(GenericUtils.search(data, Game.class));
 
         if (games.isEmpty()) throw new EntityNotFoundException("No games found for: " + data);

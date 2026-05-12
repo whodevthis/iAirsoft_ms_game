@@ -26,13 +26,13 @@ public class GameCommandService implements CreateGameUseCase, UpdateGameUseCase,
 
     @Override
     @Transactional
-    public UUID createGame(InputGameDto inputGameDto) {
+    public UUID create(InputGameDto inputGameDto) {
         Game game = gameMapper.toDomain(inputGameDto);
         return gameRepositoryPort.save(game).getId();
     }
 
     @Transactional
-    public UUID updateGame(GameDetailsDto gameDetailsDto) {
+    public UUID update(GameDetailsDto gameDetailsDto) {
         Game oldGame = gameRepositoryPort.findById(gameDetailsDto.id()).orElseThrow(()->new EntityNotFoundException("game not found"));
 
         Game updatedGame = new Game(
@@ -55,7 +55,7 @@ public class GameCommandService implements CreateGameUseCase, UpdateGameUseCase,
     }
 
     @Transactional
-    public void deleteGame (UUID id){
+    public void delete(UUID id){
         gameRepositoryPort.deleteById(id);
     }
 

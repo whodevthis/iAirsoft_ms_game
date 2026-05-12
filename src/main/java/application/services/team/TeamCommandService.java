@@ -28,7 +28,7 @@ public class TeamCommandService implements CreateTeamUseCase , UpdateTeamUseCase
 
     @Transactional
     @Override
-    public UUID createTeam(InputTeamDto input) {
+    public UUID create(InputTeamDto input) {
         Marker marker = new Marker(input.lonRespawn(), input.latRespawn());
         Respawn respawn = new Respawn(marker);
         Team team = new Team(null, input.name(), input.description(), input.imagePath(), input.cammoId(), respawn);
@@ -37,7 +37,7 @@ public class TeamCommandService implements CreateTeamUseCase , UpdateTeamUseCase
 
     @Transactional
     @Override
-    public UUID updateTeam(TeamDetailsDto teamDetailsDto) {
+    public UUID update(TeamDetailsDto teamDetailsDto) {
         Team oldTeam = teamRepositoryPort.findById(teamDetailsDto.id())
                 .orElseThrow(() -> new EntityNotFoundException("Team not found"));
 
@@ -59,7 +59,7 @@ public class TeamCommandService implements CreateTeamUseCase , UpdateTeamUseCase
 
     @Transactional
     @Override
-    public void deleteTeam(UUID id) {
+    public void delete(UUID id) {
         teamRepositoryPort.findById(id).orElseThrow(() -> new EntityNotFoundException("Team not found: " + id));
         teamRepositoryPort.deleteById(id);
     }

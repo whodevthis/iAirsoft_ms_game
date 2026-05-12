@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SearchTeamUseCase {
 
-     List<TeamDto> searchTeam(String data);
+     List<TeamDto> search(String data);
 
 }

@@ -35,7 +35,7 @@ public class TeamQueryService implements GetAllTeamUseCase, GetTeamByIdUseCase, 
     }
 
     @Override
-    public List<TeamDto> searchTeam(String data) {
+    public List<TeamDto> search(String data) {
         List<Team> teams = teamRepositoryPort.search(GenericUtils.search(data, Team.class));
 
         if (teams.isEmpty()) throw new EntityNotFoundException("No teams found for: " + data);

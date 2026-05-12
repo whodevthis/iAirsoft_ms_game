@@ -25,8 +25,13 @@ public class Game {
     private int bleedingTimeSeconds;
     private int healingTimeSeconds;
     private ZonedDateTime recruitingTimeEnd;
-    private UUID locationId;
+
     private GameStatus status;
+
+
+    private UUID locationId;
+
+
 
 
 }

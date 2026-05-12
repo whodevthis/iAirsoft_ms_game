@@ -5,6 +5,6 @@ import application.dtos.game.InputGameDto;
 import java.util.UUID;
 
 public interface CreateGameUseCase {
-    UUID createGame(InputGameDto input);
+    UUID create(InputGameDto input);
 
 }

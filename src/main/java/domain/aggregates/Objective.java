@@ -1,4 +1,4 @@
-package domain.internEntities;
+package domain.aggregates;
 
 import domain.states.ObjectiveState;
 import domain.valueObjects.Marker;
