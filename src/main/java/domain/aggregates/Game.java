@@ -21,7 +21,7 @@ public class Game {
     private ZonedDateTime initGame;
     private ZonedDateTime endGame;
     private int maxPlayers;
-    private List<UUID> teamIds;
+    private List<UUID> teamIds = new ArrayList<>();
     private int bleedingTimeSeconds;
     private int healingTimeSeconds;
     private ZonedDateTime recruitingTimeEnd;

@@ -15,6 +15,5 @@ public interface GeofenceMapper {
     @Mapping(target = "id", ignore = true)
     Geofence toDomain(InputGeofenceDto dto);
 
-    @Mapping(target = "imagePath", ignore = true)
     GeofenceDetailsDto toDetailsDTO(Geofence domain);
 }

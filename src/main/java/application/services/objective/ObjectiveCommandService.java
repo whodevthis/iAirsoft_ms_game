@@ -9,6 +9,7 @@ import application.ports.in.objective.command.UpdateObjectiveUseCase;
 import application.ports.out.ObjectiveRepositoryPort;
 import application.utils.GenericUtils;
 import domain.aggregates.Objective;
+import domain.service.ObjectiveDomainService;
 import domain.states.ObjectiveState;
 import domain.valueObjects.Marker;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class ObjectiveCommandService implements CreateObjectiveUseCase, DeleteOb
 
     private final GenericUtils genericUtils;
     private final ObjectiveRepositoryPort objectiveRepositoryPort;
+    private final ObjectiveDomainService objectiveDomainService;
 
     @Transactional
     @Override
@@ -54,34 +56,11 @@ public class ObjectiveCommandService implements CreateObjectiveUseCase, DeleteOb
                 genericUtils.applyIfChanged(oldObjective.getMarker(), objectiveDetailsDto.marker()),
                 genericUtils.applyIfChanged(oldObjective.isCompleted(), objectiveDetailsDto.completed()),
                 genericUtils.applyIfChanged(oldObjective.getCompletedBy(), objectiveDetailsDto.completedBy()),
-                handleObjectiveState(oldObjective.getState(),objectiveDetailsDto.state())
-
+                objectiveDomainService.handleStateTransition(oldObjective.getState(),objectiveDetailsDto.state())
         );
-
         return objectiveRepositoryPort.save(updatedObjective).getId();
     }
 
-    private ObjectiveState handleObjectiveState(ObjectiveState oldState, ObjectiveState newState) {
-        switch (oldState) {
-            case CREATED:
-                if (newState == ObjectiveState.ON_COURSE)
-                    return newState;
-                throw new IllegalArgumentException("CREATED only can change to ON_COURSE");
 
-            case ON_COURSE:
-                if (newState == ObjectiveState.END || newState == ObjectiveState.CANCELLED)
-                    return newState;
-                throw new IllegalArgumentException("ON_COURSE only can change to END o CANCELLED");
-
-            case END:
-                throw new IllegalArgumentException("END is final state");
-
-            case CANCELLED:
-                throw new IllegalArgumentException("CANCELLED is final state");
-
-            default:
-                throw new IllegalArgumentException("Estado desconocido: " + oldState);
-        }
-    }
 
 }

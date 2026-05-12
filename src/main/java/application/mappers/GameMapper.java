@@ -14,7 +14,6 @@ public interface GameMapper {
     GameMapper INSTANCE = Mappers.getMapper(GameMapper.class);
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "teamIds", ignore = true)
-    @Mapping(target = "status", constant = "DRAFT")
     Game toDomain(InputGameDto dto);
 
     @Mapping(target = "imagePath", ignore = true)

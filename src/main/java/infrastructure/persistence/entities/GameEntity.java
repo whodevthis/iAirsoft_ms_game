@@ -1,4 +1,4 @@
-package infrastructure.persistance.entities;
+package infrastructure.persistence.entities;
 
 
 import domain.states.GameStatus;
