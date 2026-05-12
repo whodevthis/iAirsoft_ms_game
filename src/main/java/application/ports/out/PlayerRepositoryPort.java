@@ -13,5 +13,6 @@ public interface PlayerRepositoryPort {
 
     Optional <Player> findById(UUID id);
     List<Player> findAll();
-    <T> List<Player> search(Specification<T> search);
+
+    List<Player> search(Specification<Player> search);
 }

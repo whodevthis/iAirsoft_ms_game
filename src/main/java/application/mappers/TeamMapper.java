@@ -13,7 +13,6 @@ public interface TeamMapper {
 
     TeamMapper INSTANCE = Mappers.getMapper(TeamMapper.class);
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "status", constant = "DRAFT")
     Team toDomain(InputTeamDto dto);
 
     @Mapping(target = "imagePath", ignore = true)

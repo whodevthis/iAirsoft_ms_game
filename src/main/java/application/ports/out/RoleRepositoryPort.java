@@ -12,5 +12,5 @@ public interface RoleRepositoryPort {
     void deleteById(UUID id);
     Optional <Role> findById(UUID id);
     List<Role> findAll();
-    <T> List<Role> search(Specification<T> search);
+    List<Role> search(Specification<Role> search);
 }

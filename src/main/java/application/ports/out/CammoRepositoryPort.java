@@ -13,5 +13,5 @@ public interface CammoRepositoryPort {
 
     Optional <Cammo> findById(UUID id);
     List<Cammo> findAll();
-    <T> List<Cammo> search(Specification<T> search);
+    List<Cammo> search(Specification<Cammo> search);
 }

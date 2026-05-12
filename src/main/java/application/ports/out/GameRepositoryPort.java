@@ -13,5 +13,5 @@ public interface GameRepositoryPort {
 
     Optional <Game> findById(UUID id);
     List<Game> findAll();
-    <T> List<Game> search(Specification<T> search);
+    List<Game> search(Specification<Game> search);
 }

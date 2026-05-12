@@ -13,5 +13,5 @@ public interface GeofenceRepositoryPort {
 
     Optional <Geofence> findById(UUID id);
     List<Geofence> findAll();
-    <T> List<Geofence> search(Specification<T> search);
+    List<Geofence> search(Specification<Geofence> search);
 }

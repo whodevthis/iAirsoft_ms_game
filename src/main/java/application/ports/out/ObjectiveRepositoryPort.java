@@ -13,5 +13,5 @@ public interface ObjectiveRepositoryPort {
 
     Optional <Objective> findById(UUID id);
     List<Objective> findAll();
-    <T> List<Objective> search(Specification<T> search);
+     List<Objective> search(Specification<Objective> search);
 }

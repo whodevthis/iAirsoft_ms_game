@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface GameEntityMapper {
-    @Mapping(target = "teamIds", ignore = true)
     GameEntity toEntity(Game game);
     Game toDomain(GameEntity entity);
 }

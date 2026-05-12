@@ -12,5 +12,5 @@ public interface LocationRepositoryPort {
     void deleteById(UUID id);
     Optional <Location> findById(UUID id);
     List<Location> findAll();
-    <T> List<Location> search(Specification<T> search);
+    List<Location> search(Specification<Location> search);
 }

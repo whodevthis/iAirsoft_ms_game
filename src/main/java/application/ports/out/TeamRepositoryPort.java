@@ -13,5 +13,5 @@ public interface TeamRepositoryPort {
 
     Optional <Team> findById(UUID id);
     List<Team> findAll();
-    <T> List<Team> search(Specification<T> search);
+    List<Team> search(Specification<Team> search);
 }

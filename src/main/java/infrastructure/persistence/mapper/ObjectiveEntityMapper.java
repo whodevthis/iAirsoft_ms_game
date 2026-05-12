@@ -14,8 +14,19 @@ public interface ObjectiveEntityMapper {
     @Mapping(target = "marker", expression = "java(toMarkerJson(objective.getMarker()))")
     ObjectiveEntity toEntity(Objective objective);
 
-    @Mapping(target = "marker", expression = "java(toMarker(entity.getMarker()))")
-    Objective toDomain(ObjectiveEntity entity);
+    default Objective toDomain(ObjectiveEntity entity) {
+        return new Objective(
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription(),
+                entity.getImage(),
+                entity.getCode(),
+                toMarker(entity.getMarker()),
+                entity.isCompleted(),
+                entity.getCompletedBy(),
+                entity.getState()
+        );
+    }
 
     default MarkerJson toMarkerJson(Marker marker) {
         if (marker == null) return null;
