@@ -1,4 +1,4 @@
-package domain;
+package domain.service;
 
 import domain.aggregates.Game;
 import org.springframework.stereotype.Service;
@@ -24,17 +24,6 @@ public class GameDomainService {
             throw new IllegalArgumentException("El equipo no está en el juego");
 
         game.getTeamIds().remove(teamId);
-    }
-
-    public <T> T applyIfChanged(T oldValue, T newValue) {
-        if (newValue == null) return oldValue;
-        if (newValue instanceof String && ((String) newValue).isBlank()) return oldValue;
-        return newValue.equals(oldValue) ? oldValue : newValue;
-    }
-
-    public <T> T findOrThrow(T value) {
-        if (value == null) throw new RuntimeException("Entity not found");
-        return value;
     }
 
 }

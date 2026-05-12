@@ -1,5 +1,6 @@
 package domain.aggregates;
 
+import domain.valueObjects.GeoJson;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Geofence {
-    private  UUID id;
+    private UUID id;
     private String name;
-    private String geoJson;
-
+    private GeoJson geoJson;
 }

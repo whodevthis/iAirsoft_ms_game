@@ -4,8 +4,11 @@ import application.dtos.game.GameDetailsDto;
 import application.dtos.game.GameDto;
 import application.exceptions.EntityNotFoundException;
 import application.mappers.GameMapper;
+import application.ports.in.game.GetAllGamesUseCase;
+import application.ports.in.game.GetGameByIdUseCase;
+import application.ports.in.game.SearchGameUseCase;
 import application.ports.out.GameRepositoryPort;
-import application.specifications.GenericSearch;
+import application.utils.GenericUtils;
 import domain.aggregates.Game;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class GameQueryService {
+public class GameQueryService implements GetAllGamesUseCase, GetGameByIdUseCase, SearchGameUseCase {
 
     private final GameRepositoryPort gameRepositoryPort;
     private final GameMapper gameMapper;
@@ -25,11 +28,14 @@ public class GameQueryService {
     }
 
     public GameDetailsDto getById(UUID id) {
-        return gameMapper.toDetailsDTO(gameRepositoryPort.findById(id));
+        return gameMapper.toDetailsDTO(
+                gameRepositoryPort.findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Game not found: " + id))
+        );
     }
 
     public List<GameDto> searchGame(String data) {
-        List<Game> games = gameRepositoryPort.search(GenericSearch.search(data, Game.class));
+        List<Game> games = gameRepositoryPort.search(GenericUtils.search(data, Game.class));
 
         if (games.isEmpty()) throw new EntityNotFoundException("No games found for: " + data);
 
