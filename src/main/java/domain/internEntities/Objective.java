@@ -16,6 +16,7 @@ public class Objective {
     private  String name;
     private  String description;
     private  String image;
+    private String code;
     private  Marker marker;
     private boolean completed;
     private UUID completedBy;

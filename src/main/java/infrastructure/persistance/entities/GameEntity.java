@@ -1,19 +1,21 @@
-package domain.aggregates;
+package infrastructure.persistance.entities;
+
 
 import domain.states.GameStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
-public class Game {
+@NoArgsConstructor
+public class GameEntity {
+
     private UUID id;
     private String name;
     private String description;
@@ -21,12 +23,10 @@ public class Game {
     private ZonedDateTime initGame;
     private ZonedDateTime endGame;
     private int maxPlayers;
-    private List<UUID> teamIds;
+    private List<TeamEntity> teams;
     private int bleedingTimeSeconds;
     private int healingTimeSeconds;
     private ZonedDateTime recruitingTimeEnd;
-    private UUID locationId;
+    private LocationEntity location;
     private GameStatus status;
-
-
 }

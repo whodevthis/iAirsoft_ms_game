@@ -2,6 +2,7 @@ package domain.states;
 
 public enum GameStatus {
     CREATED,
+    DRAFT,
     READY,
     IN_PROGRESS,
     PAUSED,
