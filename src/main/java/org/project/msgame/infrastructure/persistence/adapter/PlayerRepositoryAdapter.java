@@ -30,6 +30,11 @@ public class PlayerRepositoryAdapter implements PlayerRepositoryPort {
     public Optional<Player> findById(UUID id) {
         return playerJpaRepository.findById(id).map(playerEntityMapper::toDomain);
     }
+    @Override
+    public Optional<Player> findByUserId(UUID userId) {
+        return playerJpaRepository.findByUserId(userId)
+                .map(playerEntityMapper::toDomain);
+    }
 
     @Override
     public List<Player> findAll() {
@@ -39,6 +44,11 @@ public class PlayerRepositoryAdapter implements PlayerRepositoryPort {
     @Override
     public void deleteById(UUID id) {
         playerJpaRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsByUserId(UUID userId) {
+        return playerJpaRepository.existsByUserId(userId);
     }
 
     @Override

@@ -10,9 +10,9 @@ import java.util.UUID;
 public interface PlayerRepositoryPort {
     Player save(Player player);
     void deleteById(UUID id);
-
+    boolean existsByUserId(UUID userId);
     Optional <Player> findById(UUID id);
     List<Player> findAll();
-
+    Optional<Player> findByUserId(UUID userId);
     List<Player> search(Specification<Player> search);
 }

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.project.msgame.application.ports.in.player.query.GetPlayerByUserIdUseCase;
 import org.project.msgame.application.ports.in.team.command.*;
 import org.project.msgame.application.ports.in.team.query.GetAllTeamUseCase;
 import org.project.msgame.application.ports.in.team.query.GetTeamByIdUseCase;
@@ -38,6 +39,7 @@ public class TeamController {
     private final GetAllTeamUseCase getAllTeamUseCase;
     private final GetTeamByIdUseCase getTeamByIdUseCase;
     private final SearchTeamUseCase searchTeamUseCase;
+    private final GetPlayerByUserIdUseCase getPlayerByUserIdUseCase;
 
     @PostMapping
     @Operation(summary = "Create a new team")
@@ -73,10 +75,12 @@ public class TeamController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{teamId}/players/{playerId}/roles/{roleId}")
-    @Operation(summary = "Add player to team")
-    public ResponseEntity<Void> addPlayer(@PathVariable UUID teamId, @PathVariable UUID playerId,
-                                          @PathVariable UUID roleId) {
+    @PostMapping("/{teamId}/roles/{roleId}/players/{userId}/join")
+    @Operation(summary = "Join a team as a player")
+    public ResponseEntity<Void> addPlayer(@PathVariable UUID teamId,
+                                         @PathVariable UUID roleId,
+                                         @PathVariable UUID userId) {
+        UUID playerId = getPlayerByUserIdUseCase.getByUserId(userId).id();
         addPlayerOnTeamUseCase.addPlayerOnTeam(teamId, playerId, roleId);
         return ResponseEntity.ok().build();
     }
