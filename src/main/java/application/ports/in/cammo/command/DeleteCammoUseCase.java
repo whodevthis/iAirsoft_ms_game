@@ -1,7 +1,0 @@
-package application.ports.in.cammo.command;
-
-import java.util.UUID;
-
-public interface DeleteCammoUseCase {
-    void delete (UUID id);
-}
