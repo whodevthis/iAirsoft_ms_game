@@ -1,45 +1,59 @@
-🪖 iAirsoft API
+# msGame — iAirsoft
 
-Backend for immersive airsoft/milsim game management with voice-controlled virtual HQ.
+Game management microservice for the iAirsoft platform. Handles the full lifecycle of airsoft/milsim games: matches, teams, players, locations, objectives and roles.
+🏗️ Architecture
 
+Hexagonal Architecture (Ports & Adapters) · Domain-Driven Design (DDD) · CQRS
 
-About
-GateWay API backend for comprehensive airsoft and milsim (military simulation) game management. It handles pre-game organization — matches, teams, players and locations — and during the game acts as a voice-controlled virtual HQ, giving the command team real-time visibility over the game state.
-The frontend (mobile app with voice interface) is distributed as an independent APK and consumes this API.
+src/main/java/org/project/msgame/
+│
+├── 🟣 domain/
+│   ├── aggregates/       # Game, Team, Player, Objective, Role, Location, Cammo, Geofence
+│   ├── service/          # TeamDomainService, GameDomainService, ObjectiveDomainService
+│   ├── states/           # GameStatus, ObjectiveState, RoleType
+│   └── valueObjects/     # Marker, Respawn, PlayerRole, TeamRole, PlayerObjective, Address, GeoJson
+│
+├── 🔵 application/
+│   ├── ports/
+│   │   ├── in/           # Use case interfaces — command + query per aggregate
+│   │   └── out/          # Repository port interfaces — one per aggregate
+│   ├── services/         # CommandService + QueryService per aggregate
+│   ├── dtos/             # Input/output DTOs per aggregate
+│   ├── mappers/          # MapStruct mappers  (domain ↔ DTO)
+│   └── utils/            # GenericUtils (search, applyIfChanged)
+│
+└── 🟤 infrastructure/
+    ├── controller/       # REST controllers — one per aggregate
+    ├── messagin/
+    │   ├── config/       # RabbitMQConfig
+    │   ├── consumer/     # PlayerCreatedConsumer
+    │   └── dto/          # UserEventDTO
+    └── persistence/
+        ├── adapter/      # Repository port implementations
+        ├── assemblers/   # GameAssembler
+        ├── converters/   # JPA AttributeConverters (JSON columns)
+        ├── entities/     # JPA entities
+        ├── mapper/       # MapStruct mappers  (entity ↔ domain)
+        ├── mirrorClasses/# JSON mirror classes for converters
+        └── repository/   # Spring Data JPA repositories
 
-Architecture
-The project follows Hexagonal Architecture (Ports & Adapters) combined with Domain-Driven Design (DDD):
-src/main/java/
-├── Domain/               # Aggregates, entities, value objects, domain services
-│   └── aggregates/
-├── Application/          # Use cases, input and output ports
-└── Infrastructure/       # REST adapters, JPA repositories, Spring configuration
+📨 Messaging — msAuth → msGame
+When a user registers in msAuth, a UserEvent is published to RabbitMQ.
+msGame consumes it and automatically creates the player profile — no manual call needed.
+msAuth
+  └─▶  audit.exchange
+            └─▶  [routing key: audit.createUser]
+                        └─▶  player.creation.queue
+                                    └─▶  PlayerCreatedConsumer
+                                                └─▶  PlayerEntity  ✅
 
-Tech stack
-LayerTechnologyLanguageJava 21FrameworkSpring Boot 3SecuritySpring SecurityPersistenceJPA / HibernateDatabaseMySQLDeploymentDocker / Docker ComposeBuildMaven
+⚙️ Tech stack
+LanguageJava 21
+FrameworkSpring Boot 4.0.6
+PersistenceJPA / Hibernate 7 + MySQL 9MessagingRabbitMQ 
+Spring AMQP 4MappingMapStruct 1.5.5
+SecuritySpring Security + OAuth2API
+DocsSpringDoc OpenAPI / Swagger 
+UIMetricsMicrometer + PrometheusInfrastructureDocker + Docker ComposeBuildMaven
 
-Features
-
-🎮 Full game lifecycle management
-👥 Team, player and location management
-🎙️ Voice-controlled virtual HQ during live games
-⚙️ Team capacity control, bleeding and healing timers
-🔐 Authentication and role-based access control
-
-
-Requirements
-
-Java 21+
-Docker & Docker Compose
-Maven 3.8+
-
-
-Related repositories
-ComponentRepositoryAPI (this repo)iAirsoft_APIMobile app (APK)Coming soon
-
-Status
-🚧 Active development. Currently implementing the domain layer: Game, Team and Player aggregates.
-
-Author
-Miguel Ángel Merchán Recio
-whodevthis.com · miguelangelmerchan@whodevthis.com
+*Part of the [iAirsoft](https://whodevthis.com) project · Miguel Ángel Merchán Recio*
