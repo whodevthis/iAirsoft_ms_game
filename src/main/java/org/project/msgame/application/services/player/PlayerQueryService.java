@@ -5,6 +5,7 @@ import org.project.msgame.application.exceptions.EntityNotFoundException;
 import org.project.msgame.application.mappers.PlayerMapper;
 import org.project.msgame.application.ports.in.player.query.GetAllPlayerUseCase;
 import org.project.msgame.application.ports.in.player.query.GetPlayerByIdUseCase;
+import org.project.msgame.application.ports.in.player.query.GetPlayerByUserIdUseCase;
 import org.project.msgame.application.ports.in.player.query.SearchPlayerUseCase;
 import org.project.msgame.application.ports.out.PlayerRepositoryPort;
 import org.project.msgame.application.utils.GenericUtils;
@@ -17,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class PlayerQueryService implements GetAllPlayerUseCase, GetPlayerByIdUseCase, SearchPlayerUseCase {
+public class PlayerQueryService implements GetAllPlayerUseCase, GetPlayerByIdUseCase, SearchPlayerUseCase , GetPlayerByUserIdUseCase {
 
     private final PlayerMapper playerMapper;
     private final PlayerRepositoryPort playerRepositoryPort;
@@ -39,5 +40,12 @@ public class PlayerQueryService implements GetAllPlayerUseCase, GetPlayerByIdUse
         if (players.isEmpty()) throw new EntityNotFoundException("No players found for: " + data);
 
         return players.stream().map(playerMapper::toDetailsDTO).toList();
+    }
+    @Override
+    public PlayerDetailsDto getByUserId(UUID userId) {
+        return playerMapper.toDetailsDTO(
+                playerRepositoryPort.findByUserId(userId)
+                        .orElseThrow(() -> new EntityNotFoundException("Player not found for userId: " + userId))
+        );
     }
 }
