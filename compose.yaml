@@ -1,18 +1,99 @@
 services:
-  mysql:
-    image: 'mysql:latest'
+  msgame:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: msgame-app
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/msgame'
+      - 'SPRING_DATASOURCE_USERNAME=ms_game'
+      - 'SPRING_DATASOURCE_PASSWORD=ms_game_password'
+      - 'SPRING_RABBITMQ_HOST=rabbitmq'
+      - 'SPRING_RABBITMQ_PORT=5672'
+      - 'SPRING_RABBITMQ_USERNAME=myuser'
+      - 'SPRING_RABBITMQ_PASSWORD=secret'
+      - 'MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,prometheus,metrics'
+      - 'MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED=true'
+      - 'MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true'
+    ports:
+      - '8080:8081'
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mysql:
+    image: 'mysql:8.4'
+    container_name: msgame-mysql
+    environment:
+      - 'MYSQL_DATABASE=msgame'
+      - 'MYSQL_USER=ms_game'
+      - 'MYSQL_PASSWORD=ms_game_password'
+      - 'MYSQL_ROOT_PASSWORD=root_password'
     ports:
       - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-proot_password']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
 
   rabbitmq:
-    image: 'rabbitmq:latest'
+    image: 'rabbitmq:3-management'
+    container_name: msgame-rabbitmq
     environment:
-      - 'RABBITMQ_DEFAULT_PASS=secret'
       - 'RABBITMQ_DEFAULT_USER=myuser'
+      - 'RABBITMQ_DEFAULT_PASS=secret'
     ports:
       - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  prometheus:
+    image: 'prom/prometheus:latest'
+    container_name: msgame-prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - '9090:9090'
+    depends_on:
+      - msgame
+    restart: unless-stopped
+
+  grafana:
+    image: 'grafana/grafana:latest'
+    container_name: msgame-grafana
+    environment:
+      - 'GF_SECURITY_ADMIN_USER=admin'
+      - 'GF_SECURITY_ADMIN_PASSWORD=admin'
+      - 'GF_USERS_ALLOW_SIGN_UP=false'
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    ports:
+      - '3000:3000'
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  rabbitmq_data:
+  prometheus_data:
+  grafana_data:
