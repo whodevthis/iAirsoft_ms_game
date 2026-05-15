@@ -1,10 +1,44 @@
 services:
+  # ── NUEVO: Eureka Server ──────────────────────────────────
+  eureka:
+    build:
+      context: ./msEureka  # Ajusta a la ruta de tu proyecto Eureka
+      dockerfile: Dockerfile
+    container_name: ms-eureka
+    ports:
+      - '8761:8761'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── NUEVO: API Gateway ───────────────────────────────────
+  gateway:
+    build:
+      context: ./msGateway # Ajusta a la ruta de tu proyecto Gateway
+      dockerfile: Dockerfile
+    container_name: ms-gateway
+    ports:
+      - '8080:8080'
+    environment:
+      - 'EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka:8761/eureka/'
+      - 'SPRING_APPLICATION_NAME=msGateway'
+      - 'APP_JWT_SECRET=esta_es_una_clave_secreta_muy_larga_de_mas_de_32_caracteres'
+    depends_on:
+      eureka:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── msGame (Actualizado con Eureka) ──────────────────────
   msgame:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: msgame-app
     environment:
+      - 'SPRING_APPLICATION_NAME=msGame'
       - 'SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/msgame'
       - 'SPRING_DATASOURCE_USERNAME=ms_game'
       - 'SPRING_DATASOURCE_PASSWORD=ms_game_password'
@@ -12,12 +46,15 @@ services:
       - 'SPRING_RABBITMQ_PORT=5672'
       - 'SPRING_RABBITMQ_USERNAME=myuser'
       - 'SPRING_RABBITMQ_PASSWORD=secret'
+      - 'EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://eureka:8761/eureka/' # <--- CONEXIÓN A EUREKA
       - 'MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,prometheus,metrics'
       - 'MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED=true'
       - 'MANAGEMENT_PROMETHEUS_METRICS_EXPORT_ENABLED=true'
     ports:
-      - '8080:8081'
+      - '8081:8081'
     depends_on:
+      eureka:
+        condition: service_healthy
       mysql:
         condition: service_healthy
       rabbitmq:
@@ -73,6 +110,7 @@ services:
       - '9090:9090'
     depends_on:
       - msgame
+      - gateway # También puedes monitorear el gateway
     restart: unless-stopped
 
   grafana:
